@@ -4,6 +4,23 @@
 
 ---
 
+## 4.1.3（二开） — 2026-10-17
+
+> Patch（fork 二开，mlzxgzy/chrono-secretary-skill）。补齐 fork 文档并权威化提交流程。schema **0.17.0** 不变。回归 **1099**（不动用例）。
+
+### Added
+- **`FORK.md`（仓库根）**：fork 来源（qiusuo0226/chrono-pm-skill @ v4.1.1）、二开口径（合同按需、计量单位默认人天、To G 必填闸一律放宽）、与上游同步策略（不自动 merge，单点引入后重过审计）
+- **`CONTRIBUTING.md`（仓库根）**：提交与发布流程权威文档——10 步标准流程（改仓库→版本 bump→CHANGELOG→BLUEPRINT 演进表→基线→审计 17/17→测试→commit→同步安装目录→push）、审计红线表、已知 7 例既有测试失败、提交信息约定、文档自维护规则
+- **README×2**：仓库地址改为本 fork（移除上游内网地址），新增「二开差异」「参与贡献」两节，指向 FORK.md / CONTRIBUTING.md
+
+### Changed
+- 仓库根文档补齐后，后续 AI 的提交与 push 操作一律以 CONTRIBUTING.md 为准
+
+### 不做
+- 改包体规则/模板/脚本（本次零行为变更）；升 schema；增删回归用例
+
+---
+
 ## 4.1.2（二开） — 2026-10-17
 
 > Patch（fork 二开，mlzxgzy/chrono-secretary-skill）。初始化向导合同信息改为按需；人工计量单位未约定时默认「人天」。schema **0.17.0** 不变。回归 **1099**（不增用例，只改既有用例期望）。

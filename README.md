@@ -1,4 +1,4 @@
-# ChronoPM v4.1.2 — 会管项目的 AI 副手
+# ChronoPM v4.1.3 — 会管项目的 AI 副手
 
 **你负责判断，它负责记、算、盯。项目的一切事实写在 Markdown 里，跟着项目走。**
 
@@ -10,7 +10,19 @@ ChronoPM 是一套装进 AI 助手的项目管理方法论：你照常说话—�
 
 ## 仓库地址
 
-- 内网仓库：`http://192.168.5.15/presales/pmskill/be/pmskill.git`
+- 本 fork：`https://github.com/mlzxgzy/chrono-secretary-skill`
+- 上游原项目：`qiusuo0226/chrono-pm-skill`（本仓库自 v4.1.2 起为二开版本线，差异见 [FORK.md](FORK.md)）
+
+## 二开差异
+
+相对上游 v4.1.1，本 fork 的口径放宽（详见 [FORK.md](FORK.md)）：
+
+- **合同信息按需**：初始化时不主动询问合同字段，无合同项目不建合同登记册，巡检合同层豁免
+- **人工计量单位默认「人天」**：未约定时直接登记，不再追问、不阻塞向导
+
+## 参与贡献
+
+改动、发版、提交、push 前必读 [CONTRIBUTING.md](CONTRIBUTING.md)——那是本仓库唯一的提交流程权威，AI 助手同样按它操作。
 
 ## 安装
 
@@ -95,7 +107,7 @@ ChronoPM Skill/
 
 | 项目 | 值 |
 |---|---|
-| Skill 版本 | 4.1.2 |
+| Skill 版本 | 4.1.3 |
 | 工作区 Schema | 0.17.0 |
 | 规则文件 | 24 份 |
 | 文档模板 | 40 个 |

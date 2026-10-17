@@ -1,4 +1,4 @@
-# ChronoPM v4.1.2 — An AI Sidekick That Actually Manages Projects
+# ChronoPM v4.1.3 — An AI Sidekick That Actually Manages Projects
 
 **You make the calls. It remembers, computes, and watches. Every project fact lives in Markdown — and stays with the project.**
 
@@ -10,7 +10,19 @@ ChronoPM is a project-management methodology packaged as an AI skill: talk the w
 
 ## Repository
 
-- Intranet repo: `http://192.168.5.15/presales/pmskill/be/pmskill.git`
+- This fork: `https://github.com/mlzxgzy/chrono-secretary-skill`
+- Upstream: `qiusuo0226/chrono-pm-skill` (this repo follows its own fork version line since v4.1.2 — see [FORK.md](FORK.md))
+
+## Fork differences
+
+Relative to upstream v4.1.1, this fork relaxes the To-G-oriented gates (details in [FORK.md](FORK.md)):
+
+- **Contract info is opt-in**: the init wizard never asks for contract fields unless you mention them; projects without contracts skip the contract register and the contract-layer inspection
+- **Effort unit defaults to person-day (人天)**: no more repeated asking or blocking when the unit is unspecified
+
+## Contributing
+
+Read [CONTRIBUTING.md](CONTRIBUTING.md) before changing anything, releasing, committing, or pushing — it is the single authoritative workflow of this repo, and AI assistants follow it too.
 
 ## Install
 
@@ -94,7 +106,7 @@ ChronoPM Skill/
 
 | Item | Value |
 |---|---|
-| Skill version | 4.1.2 |
+| Skill version | 4.1.3 |
 | Workspace schema | 0.17.0 |
 | Rule files | 24 |
 | Document templates | 40 |

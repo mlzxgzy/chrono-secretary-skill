@@ -1,6 +1,6 @@
 ---
 name: chrono-pm-project
-version: 4.1.2
+version: 4.1.3
 schema_version: 0.17.0
 updated_at: 2026-10-17
 description: 项目管理：记日报、出周报、跟待办、做风险登记、写会议纪要。工作包、计划、倒排、里程碑、合同和需求写进你自己的 Markdown 文件夹；要紧的变更先问过你。跨项目只读归集在本包的 portfolio-skill/，不是单独安装的技能。Project management for daily reports, weekly reports, todos, risk registers, and meeting notes in your own Markdown folder. Material changes wait for your confirmation. Cross-project read-only rollups are the in-package portfolio-skill. 触发：项目管理、项目、项目集、组合、跨项目、初始化项目、工作包、WP、计划、看计划、排计划、倒排、排期、阶段、里程碑、门禁、结转、派活、待办、任务、进度、需求、变更、范围、合同、合同登记、风险登记、风险、问题、决策、会议、会议纪要、纪要、拆文件、源文档、工时、能耗、人员、花名册、人员进出、进度表、xlsx、csv、投喂、粘贴、入库、归档、更新、补全、回填、评审、验收、成本、预算、复盘、历史计划、完整性巡检、词库、偏好、画图、责任链图、记日报、日报、出周报、周报、集周报、ChronoPM、ChronoPM-Project、daily report、todo、task、work package、plan、schedule、milestone、risk register、risk、issue、meeting notes、weekly report、contract、requirement、portfolio、cross-project。集层规则在 portfolio-skill，查询规则在 query-skill。
@@ -209,7 +209,7 @@ python "scripts/init_workspace.py" --project-root <根目录> --mode single --pr
 ### 版本控制文件
 | 文件 | 用途 |
 |------|------|
-| `VERSION` | Skill 包版本号（当前 4.1.2） |
+| `VERSION` | Skill 包版本号（当前 4.1.3） |
 | `skill.json` | Skill 元数据（版本、模式、依赖；skill schemaVersion 与 supportedWorkspaceSchema 分离） |
 | `CHANGELOG.md` | 版本变更历史和升级说明 |
 | SKILL.md front matter | AI 可读的版本字段 |
