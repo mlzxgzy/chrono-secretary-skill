@@ -1,6 +1,6 @@
 ---
 name: chrono-pm-project
-version: 4.1.3
+version: 4.1.4
 schema_version: 0.17.0
 updated_at: 2026-10-17
 description: 项目管理：记日报、出周报、跟待办、做风险登记、写会议纪要。工作包、计划、倒排、里程碑、合同和需求写进你自己的 Markdown 文件夹；要紧的变更先问过你。跨项目只读归集在本包的 portfolio-skill/，不是单独安装的技能。Project management for daily reports, weekly reports, todos, risk registers, and meeting notes in your own Markdown folder. Material changes wait for your confirmation. Cross-project read-only rollups are the in-package portfolio-skill. 触发：项目管理、项目、项目集、组合、跨项目、初始化项目、工作包、WP、计划、看计划、排计划、倒排、排期、阶段、里程碑、门禁、结转、派活、待办、任务、进度、需求、变更、范围、合同、合同登记、风险登记、风险、问题、决策、会议、会议纪要、纪要、拆文件、源文档、工时、能耗、人员、花名册、人员进出、进度表、xlsx、csv、投喂、粘贴、入库、归档、更新、补全、回填、评审、验收、成本、预算、复盘、历史计划、完整性巡检、词库、偏好、画图、责任链图、记日报、日报、出周报、周报、集周报、ChronoPM、ChronoPM-Project、daily report、todo、task、work package、plan、schedule、milestone、risk register、risk、issue、meeting notes、weekly report、contract、requirement、portfolio、cross-project。集层规则在 portfolio-skill，查询规则在 query-skill。
@@ -84,6 +84,7 @@ python --version
 python "scripts/init_workspace.py" --project-root <根目录> --mode single --project-name "项目名称"
 ```
 无 `--mode portfolio`。向导见 `18-init-wizard-rules.md`（含成本核算方式必填）。
+**直录模式（本用户常设，覆盖逐步提问）**：用户口述建档信息时**不跑六步逐题提问**——把原话能推出的字段（名称/起止日期/阶段/范围/约束/模块数）一次写进 brief、context、需求册与里程碑；用户分多条消息陆续补充属常态，累积后**同轮一次落盘**，禁止按条追问。必填缺口最多一轮 ≤3 题，也可不问：选填步骤跳过标待补充，缺口只在收尾回复末尾留**一行**提醒。收尾格式=改动文件清单 + 登记摘要 + 一行待补充。字段落点与坑见 `18-init-wizard-rules.md` §0。
 ### 5.1b 版本检查（进入工作区先做）
 读 `ai/.skill-version.json` → 比 Skill `VERSION`。Skill < 工作区版本 → 提示升级 Skill + 只读降级。见 `20-workspace-version-rules.md`。会话钩子会自己运行 `scripts/enforce_workspace_upgrade.py`：技能更新时由程序处理。已拆源对不上恰好一条已有需求时保持独立并写参见，不挡住版本戳。已声明 `doc_kind: reference` 的切片也不计入未完成。切片没有章节或页码、`doc_kind` 无法识别、恰好一条需求但补完仍没有在用工作包时，不改 `skillVersion`。模型禁止自己改这个字段，禁止把没做完说成升级完成。钩子没跑成时，版本号保持原样。
 **P-VIEWS** 不在查询时跑。写入完成之后，或用户要求重建视图时，有 Python 则跑 `scripts/refresh_views.py --project-root <根> --all`（指纹未变不写盘）。`<根>` = **单项目根**（其下直接有 `ai/wps/`）。联邦集工作区须指向成员项目根，**禁止**对集根跑 `--all`。无 Python / 失败 → 不阻断。缺 `context/brain.md` 不致命。
@@ -209,7 +210,7 @@ python "scripts/init_workspace.py" --project-root <根目录> --mode single --pr
 ### 版本控制文件
 | 文件 | 用途 |
 |------|------|
-| `VERSION` | Skill 包版本号（当前 4.1.3） |
+| `VERSION` | Skill 包版本号（当前 4.1.4） |
 | `skill.json` | Skill 元数据（版本、模式、依赖；skill schemaVersion 与 supportedWorkspaceSchema 分离） |
 | `CHANGELOG.md` | 版本变更历史和升级说明 |
 | SKILL.md front matter | AI 可读的版本字段 |
