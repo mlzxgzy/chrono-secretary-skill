@@ -177,7 +177,7 @@
 
 | Case ID | Input | Expected | Type |
 |---|---|---|---|
-| IW-001 | 用户说"初始化项目" | 启动六步向导，进入 Step 1 合同信息 | positive |
+| IW-001 | 用户说"初始化项目" | 启动六步向导，进入 Step 1 项目基础信息；未提及合同则不询问任何合同字段（二开调整） | positive |
 | IW-002 | 新工作区 project-brief status=草稿 | 自动提示"是否开始初始化向导" | positive |
 | IW-003 | 向导 Step 3 用户说"跳过" | 标记为待补充，继续 Step 4 | positive |
 | IW-004 | 向导中断后再次进入 | 检测到 init_wizard_progress，提示从断点继续 | positive |
@@ -416,7 +416,7 @@
 | CS-004 | 场景 G：子项目 A 被 CON-001+CON-002 覆盖（不同建设内容） | 逐合同列结论（in_contract(CON-001)+in_contract(CON-002)），contract_refs 显式双 ID，不混淆 | regression |
 | CS-005 | 单项目 2 合同分期（场景 H） | requirements/contract-register 区分 CON-001/CON-002；路由正确（不引入 portfolio） | positive |
 | CS-006 | Canonical evidence 跨 portfolio+子项目 | 归 portfolio 级，storage_level=portfolio，contract_refs 含双合同 | positive |
-| CS-007 | 已有工作区升级后 contract-register 为空 | RI 查询触发补录引导（最小字段），不返回错误结论 | negative |
+| CS-007 | 已有工作区升级后 contract-register 为空 | project-context 已录入合同 → RI 查询触发补录引导（最小字段），不返回错误结论；project-context 未录入任何合同（无合同项目，二开调整）→ 空册合法，不触发补录，按无合同口径回答 | negative |
 | CS-008 | 补充协议扩大范围 | 新增 ATOM(supplement)→归并→scope 重判→索引刷新（supplement 归父合同层级） | regression |
 | CS-009 | 合同拆分（CON-001 → CON-001a/CON-001b） | 旧条 status=superseded、superseded_by=新条；ATOM 归属迁移；Canonical 重判 | regression |
 | CS-010 | 子项目 A 的 CON-002 + 子项目 B 的 CON-003 对同一需求有证据 | Canonical 归 portfolio，storage_level=portfolio | regression |
@@ -534,7 +534,7 @@
 | V3-012 | 待确认输出 | 符合 21 号 §5.1b 一次问完（分组编号+回复模板） | positive |
 | V3-013 | 间接配合人员有日报/无日报 | §0.5 追加进组行；出组须 PM 确认，AI 不自动判出组 | positive |
 | V3-014 | 08-01 进组一天、08-15 再有能耗 | 不因能耗补录建 08-02~08-14 空日目录。废除「空窗永不占位」作为结转通则。08-15 若读/写 todos → 除已出组外全员建档 | positive |
-| V3-015 | 向导缺人工计量单位 | 不放行 + 持续提醒；单位中立不得写死人日 | regression |
+| V3-015 | 向导未说明人工计量单位 | 默认登记「人天」，不追问不阻塞；用户指定其他单位则按其值登记（二开调整，原「不放行+持续提醒」废止） | regression |
 | V3-016 | 补录历史能耗 | 只改当日明细+累计按明细重算，不回溯改历史快照 | regression |
 | V3-017 | 新风险编号 | `R-NNN`，只读 risks/index.md 求最大；存量时间戳号仍识别 | positive |
 | V3-018 | 查询旧编号 R-011 | 双格式兼容，级联不炸 | regression |

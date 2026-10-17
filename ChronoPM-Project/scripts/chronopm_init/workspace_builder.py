@@ -147,7 +147,7 @@ def create_single_project(project_root: str, project_name: str = ""):
     print(f"工作区路径: {ai_dir}")
     print(f"\n下一步:")
     print(f"  1. 对 AI 说：初始化项目")
-    print(f"  2. AI 将引导你录入合同、项目、计划、需求、资源信息")
+    print(f"  2. AI 将引导你录入项目、计划、需求、资源信息（合同按需：未提及合同则不询问合同字段；人工计量单位默认人天）")
     print(f"  3. 录入完成后，AI 会自动填充 project-context、project-brief、")
     print(f"     project-index、PLAN 计划文件等")
     print(f"  4. 也可手动填写 context/project-context.md、project-info/budget.md、")

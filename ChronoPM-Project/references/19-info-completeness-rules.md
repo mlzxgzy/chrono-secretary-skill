@@ -92,6 +92,8 @@ python scripts/verify_todo_continuity.py --root <项目根>
 
 检查文件：`context/project-context.md`, `context/project-brief.md`
 
+> **无合同项目豁免（二开调整）**：初始化时未录入任何合同信息（project-context 无合同信息表、`requirements/contract-register.md` 不存在）的项目，本层整层跳过——不检查、不记 P0/P1、不提醒。仅当项目已录入至少一份合同时，才按下表检查。
+
 | 字段 | 缺失影响 | 默认严重程度 |
 |------|----------|-------------|
 | 合同名称 | 无法形成项目归属和合同口径 | P1 |
@@ -328,7 +330,7 @@ python scripts/verify_todo_continuity.py --root <项目根>
 
 | 层级 | 对象 | 缺失项 | 影响 | 严重程度 | 建议动作 |
 |---|---|---|---|---|---|
-| 合同层 | project-context.md | 计划完工时间 | 影响延期判断 | P0 | 立即补充 |
+| 合同层 | project-context.md | 计划完工时间 | 影响延期判断 | P0 | 立即补充（仅适用于有合同项目；无合同项目本层豁免） |
 | 计划层 | PLAN 文件（若已创建） | 计划结束时间 | 影响计划排期判断 | P1 | 优先补充 |
 | 需求层 | requirement-register.md | 所属计划/WP | 影响需求统计 | P1 | 批量补充 |
 

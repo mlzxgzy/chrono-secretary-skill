@@ -8,7 +8,7 @@
 
 AI 在以下任一情况下启动初始化向导：
 
-1. **新工作区检测**：检测到 `ai/.skill-version.json` 的 `initializedAt` 为当天，或 `project-brief.md` 的 `status: 草稿` 且关键字段（项目名称、合同总额等）为空。
+1. **新工作区检测**：检测到 `ai/.skill-version.json` 的 `initializedAt` 为当天，或 `project-brief.md` 的 `status: 草稿` 且关键字段（项目名称、启动时间等）为空。
 2. **用户主动触发**：用户说"初始化项目""录入项目信息""设置项目基线""补全项目基础信息"等。
 3. **脚本完成引导**：`init_workspace.py` 执行完成后提示"对 AI 说：初始化项目"。
 
@@ -27,47 +27,43 @@ AI 进入工作区
 
 ## 2. 六步向导流程
 
-### Step 1: 合同层（必填）
+### Step 1: 项目基础信息（合同按需）
 
-**提示词**：
+**合同信息按需（二开调整）**：用户在初始化对话中**未提及合同、未上传合同文档**时，本步**不询问任何合同字段**（合同名称/合同总额/合同类型/合同范围摘要/立项时间/计划完工时间），不创建也不填写 `requirements/contract-register.md`，确认摘要合同段标注「无合同信息」。仅当用户主动提到合同或上传合同时，才按下方合同字段录入。
+
+**提示词（未提合同时只问以下内容）**：
 
 ```
-【Step 1/6 合同信息】
+【Step 1/6 项目基础信息】
 请提供以下信息（*为必填）：
-* 合同名称：
-* 合同总额（万元）：
-* 立项时间（YYYY-MM）：
 * 启动时间（YYYY-MM-DD）：
-* 人工计量单位（按贵司标准，如人日/人时/人月/其他，不预设默认）：
+* 人工计量单位（默认：人天；如需人时/人月/其他请说明）：
 * 默认能耗规则（无投喂日如何计，如「有日报产出=1 单位」/「不计」）：
-  合同类型：
-  合同范围摘要（一段话概括）：
-  计划完工时间（YYYY-MM-DD）：
 
-你也可以上传合同文档，我来解析提取。
+如本项目涉及合同（名称/总额/类型/范围/立项时间/计划完工），请一并提供或上传合同文档，我来解析提取。
 ```
 
 **录入字段**：
 
 | 字段 | 必填 | 目标文件 |
 |------|------|----------|
-| 合同名称 | 是 | project-context.md, project-brief.md |
-| 合同总额 | 是 | project-context.md |
-| 立项时间 | 是 | project-context.md, project-brief.md |
 | 启动时间 | 是 | project-context.md, project-brief.md |
-| 人工计量单位 | 是 | project-context.md「成本核算方式」段，project-brief.md |
+| 人工计量单位 | 是（未说明默认「人天」） | project-context.md「成本核算方式」段，project-brief.md |
 | 默认能耗规则 | 是 | project-context.md「成本核算方式」段，project-brief.md |
-| 合同类型 | 否 | project-context.md |
-| 合同范围摘要 | 否 | project-context.md |
-| 计划完工时间 | 否 | project-context.md, project-brief.md |
+| 合同名称 | 有合同时必填 | project-context.md, project-brief.md |
+| 合同总额 | 有合同时必填 | project-context.md |
+| 立项时间 | 有合同时必填 | project-context.md, project-brief.md |
+| 合同类型 | 有合同时选填 | project-context.md |
+| 合同范围摘要 | 有合同时选填 | project-context.md |
+| 计划完工时间 | 有合同时选填 | project-context.md, project-brief.md |
 
-> **成本核算方式（R14 / N-44）**：人工计量单位与默认能耗规则为必填，与合同总额同级。单位中立，规则/向导不得写死单一计量单位。成本单价选填（涉密可留空）。**外部填报映射 / 分次明细 / 折金额不进向导**（首次表投喂时再问，写入 project-context 可选段）。**两项缺失 → 向导不放行**，不得以「稍后补充」跳过；后续每轮对话持续提醒直至补录。能耗段单位取此处登记值。
+> **成本核算方式（R14 / N-44，二开调整）**：人工计量单位**未说明时默认「人天」**，直接登记、不再追问、不阻塞向导；用户指定人时/人月/其他则按其值登记。默认能耗规则仍询问一次，用户未答可「稍后补充」（标待补充并提醒，不阻塞）。成本单价选填（涉密可留空）。**外部填报映射 / 分次明细 / 折金额不进向导**（首次表投喂时再问，写入 project-context 可选段）。能耗段单位取此处登记值。合同字段全程按需：未提及合同即不问、不登记。
 
 **文档类型多选（v3.6.0）**：Step1 询问「本项目涉及哪些源文档类型？」（多选，对照 `source-type-registry` 基线包 11 大类）。只**启用**已选类型（registry 行 `覆盖默认？`/启用标记），**不预建**空的 `sources/{类型}/` 或旧 `{type}-source/` 目录。未选类型保持 registry 可追加、默认不启用。存量项目升级时输出「可用新类型清单」供勾选，**不预灌**约 40 行未用类型。
 
 **文件上传支持**：如用户上传合同文档，AI 先解析提取上述字段，再补充询问缺失项。落点 `requirements/sources/{CON-… 或 SRC-NNN}/`（见 07 号 §8.11）。
 
-**多合同循环登记（CR-20260813-002）**：可能有多份主合同、主合同+补充协议。Step1 录入完一份合同后询问"是否还有其他合同/补充协议？"，是则循环录入下一份，直到用户确认无更多合同。每份合同分配 `CON-{YYYYMMDD}-{HHmmss}` ID（同秒冲突追加 `-02`；旧号 `CON-NNN` 双格式兼容、不重编），并登记到本项目 `requirements/contract-register.md`（本包不写 `portfolio/requirements/`）：
+**多合同循环登记（CR-20260813-002，仅当录入了合同时适用）**：可能有多份主合同、主合同+补充协议。Step1 录入完一份合同后询问"是否还有其他合同/补充协议？"，是则循环录入下一份，直到用户确认无更多合同。每份合同分配 `CON-{YYYYMMDD}-{HHmmss}` ID（同秒冲突追加 `-02`；旧号 `CON-NNN` 双格式兼容、不重编），并登记到本项目 `requirements/contract-register.md`（本包不写 `portfolio/requirements/`）：
 
 | 补充登记字段 | 必填 | 说明 |
 |---|---|---|
@@ -169,7 +165,7 @@ AI 进入工作区
 
 - 每步标注必填/选填。
 - 选填步骤用户可回答"跳过"，该步标记为"待补充"。
-- 必填步骤不可跳过，但允许用户回答"稍后补充"，写入 brief 草稿区域。**例外**：人工计量单位与默认能耗规则不得「稍后补充」，缺失则向导不放行。
+- 必填步骤不可跳过，但允许用户回答"稍后补充"，写入 brief 草稿区域。**例外（二开调整）**：人工计量单位未说明时默认「人天」登记，不构成缺失；默认能耗规则未答可标「待补充」，不阻塞向导、不再每轮持续提醒。合同字段全程按需，未提及合同即不问、不登记。
 - 跳过的步骤在确认摘要中标注"待补充"。
 
 ---
@@ -219,7 +215,7 @@ init_wizard_completed: "YYYY-MM-DD HH:MM:SS"
 ```markdown
 # 项目初始化确认摘要
 
-## 合同信息
+## 合同信息（未录入合同时标注「无合同信息」，本段不列字段）
 - 合同名称：XXX
 - 合同总额：XXX 万元
 - 立项时间：YYYY-MM-DD
@@ -227,7 +223,7 @@ init_wizard_completed: "YYYY-MM-DD HH:MM:SS"
 - 计划完工时间：YYYY-MM-DD
 
 ## 成本核算方式
-- 人工计量单位：[单位]
+- 人工计量单位：[单位]（未说明时默认：人天）
 - 默认能耗规则：[规则]
 - 成本单价：（选填）
 
@@ -264,9 +260,9 @@ init_wizard_completed: "YYYY-MM-DD HH:MM:SS"
 
 | 步骤 | 目标文件 | 写入内容 |
 |------|----------|----------|
-| Step 1 合同层 | `context/project-context.md` | 合同信息表 +「成本核算方式」段 |
-| Step 1 合同层 | `context/project-brief.md` | 基本信息（立项时间/启动日期/计划完成）+ 成本核算方式摘要 |
-| Step 1 合同层 | `requirements/contract-register.md` | 合同登记册：每份合同（CON-{YYYYMMDD}-{HHmmss}）的 scope_level/parent_contract_id/coverage/文档簇关联（CR-20260813-002）；只写本项目 |
+| Step 1 合同层（有合同时） | `context/project-context.md` | 合同信息表 +「成本核算方式」段（无合同时只写成本核算方式段） |
+| Step 1 合同层（有合同时） | `context/project-brief.md` | 基本信息（立项时间/启动日期/计划完成）+ 成本核算方式摘要（无合同时只写启动日期与成本核算摘要） |
+| Step 1 合同层（有合同时） | `requirements/contract-register.md` | 合同登记册：每份合同（CON-{YYYYMMDD}-{HHmmss}）的 scope_level/parent_contract_id/coverage/文档簇关联（CR-20260813-002）；只写本项目。**无合同项目不创建、不填写本文件** |
 | Step 2 项目层 | `context/project-index.md` | 本项目名称/描述 |
 | Step 2 项目层 | `context/project-brief.md` | 本项目名称/描述 |
 | Step 3 计划层 | `context/project-brief.md` | 计划概览（阶段名称/时间段）+ 一行摘要 |

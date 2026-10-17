@@ -383,13 +383,14 @@ RI 范围判定隐含"合同↔项目 1:1"假设，但现实中为**多对多**�
 #### 8.9.3 检索路由（配合 05 号 §Quick Query）
 
 ```
-Step 0  读本项目 requirements/contract-register.md（空 → 触发补录引导，最小字段：ID/名称/scope_level/覆盖/status）
+Step 0  读本项目 requirements/contract-register.md（空 → 触发补录引导，最小字段：ID/名称/scope_level/覆盖/status；
+        无合同项目豁免〔二开调整〕：project-context 未录入任何合同信息 → 空/缺失登记册合法，不触发补录，按无合同口径回答）
 Step 1  解析合同指向
         ├─ 指定合同（CON-XXX/名称）→ 查本项目 requirements/canonical
         │     scope_level=portfolio 语义 → 本项目副本 + 跨项目检索由本包 `portfolio-skill/` 承载
         │     scope_level=supplement → 经 parent_contract_id 回溯父合同后仍在本项目路由
         ├─ 未指定 → 列本项目合同候选供选择；或"全部范围"→ 逐合同检索合并
-        └─ 登记册空/无匹配 → 提示补录，不臆造（D5）
+        └─ 登记册空/无匹配 → 提示补录，不臆造（D5）；无合同项目不提示补录，直接说明本项目无合同口径
 Step 2  本项目 canonical 走 L1→L2→L3 三级索引（单次 200-400 行最小读取，05 号）
 Step 3  输出 scope_scope(result) + contract_refs + 证据链
         多合同覆盖 → 逐合同列结论

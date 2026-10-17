@@ -1,7 +1,7 @@
 {
   "name": "chrono-pm-project",
   "displayName": "ChronoPM-Project — 项目管理（日报/待办/计划/风险/周报）",
-  "version": "4.1.1",
+  "version": "4.1.2",
   "schemaVersion": "0.7.0",
   "supportedWorkspaceSchema": {
     "min": "0.1.0",
@@ -107,6 +107,10 @@
     "python": ">=3.9"
   },
   "versionHistory": [
+    {
+      "version": "4.1.2",
+      "date": "2026-10-17"
+    },
     {
       "version": "4.1.1",
       "date": "2026-09-29"
@@ -613,8 +617,8 @@
     }
   ],
   "blueprint": {
-    "lastUpdated": "2026-09-29",
-    "lastVersion": "4.1.1",
+    "lastUpdated": "2026-10-17",
+    "lastVersion": "4.1.2",
     "updateRequiredOn": [
       "major",
       "minor",
